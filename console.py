@@ -21,11 +21,11 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
 
-    def do_quit(self):
+    def do_quit(self, arg):
         """The quit command is used to exit the console."""
         return True
 
-    def do_EOF(self):
+    def do_EOF(self, arg):
         """EOF is used to exit the program."""
         print()
         return True
@@ -75,8 +75,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        if class_name not in globals() or not issubclass(class_name,
-                                                         BaseModel):
+        if class_name not in globals() or not issubclass(
+                class_name, BaseModel):
             print("** class doesn't exist **")
             return
 
@@ -107,13 +107,13 @@ class HBNBCommand(cmd.Cmd):
         instance_id = args[1]
 
         try:
-            model_class = eval(class_name)
+            model_class = eval(arg)
         except NameError:
             print("** class doesn't exist **")
             return
 
-        if class_name not in globals() or not issubclass(model_class,
-                                                         BaseModel):
+        if class_name not in globals() or not issubclass(
+                model_class, BaseModel):
             print("** class doesn't exist **")
             return
 
@@ -207,5 +207,5 @@ class HBNBCommand(cmd.Cmd):
         setattr(instance, attribute_name, casted_value)
         instance.save()
 
-    if __name__ == '__main__':
-        HBNBCommand().cmdloop()
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()

@@ -14,26 +14,6 @@ class Review(BaseModel):
     - text (str): The text content of the review.
     """
 
-    def __init__(self, *args, **kwargs):
-        """
-        Initialize a new instance of Review.
-
-        Args:
-            *args: Not used.
-            **kwargs: Key-value pairs for initializing instance attributes.
-        """
-        super().__init__(*args, **kwargs)
-        self.place_id = ""
-        self.user_id = ""
-        self.text = ""
-
-    def __str__(self):
-        """
-        Return a human-readable string representation of the Review instance.
-
-        Returns:
-            str: A string containing the class name, ID, and attribute
-            dictionary.
-        """
-        return "[{}] ({}) {}".format(
-            self.__class__.__name__, self.id, self.__dict__)
+    place_id = ""
+    user_id = ""
+    text = ""

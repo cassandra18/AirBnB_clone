@@ -76,11 +76,11 @@ class HBNBCommand(cmd.Cmd):
             return
 
         if class_name not in globals() or not issubclass(
-                class_name, BaseModel):
+               globals()[class_name], BaseModel):
             print("** class doesn't exist **")
             return
 
-        instance_key = f("{class_name}.{instance_id}")
+        instance_key = print("{}.{}".format(class_name, instance_id))
         instances = storage.all()
 
         if instance_key in instances:
@@ -91,41 +91,28 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, arg):
         """Delete an instance based on the class name and id.
         Save changes to JSON file."""
-        if not arg:
-            print("** class name missing **")
-            return
-
         args = arg.split()
-        if len(args) == 0:
-            print("** class name missing **")
-            return
-        elif len(args) == 1:
-            print("** instance id missing **")
+
+        if len(args) < 2:
+            print("** Missing class name or instance id **")
             return
 
         class_name = args[0]
         instance_id = args[1]
 
-        try:
-            model_class = eval(arg)
-        except NameError:
-            print("** class doesn't exist **")
+        if class_name not in globals():
+            print("** Class doesn't exist **")
             return
 
-        if class_name not in globals() or not issubclass(
-                model_class, BaseModel):
-            print("** class doesn't exist **")
-            return
-
-        instance_key = f("{class_name}.{instance_id}")
+        instance_key = f"{class_name}.{instance_id}"
         instances = storage.all()
-        if instance_key in instances:
-            del instances[instance_key]
-            storage.save()
+
+        if instance_key not in instances:
+            print("** No instance found **")
             return
-        else:
-            print("** no instance found **")
-            return
+
+        del instances[instance_key]
+        storage.save()
 
     def do_all(self, arg):
         """Print the string representation of all instances.
@@ -168,7 +155,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         instance_id = args[1]
-        instance_key = f("{class_name}.{instance_id}")
+        instance_key = print("{}.{}".format(class_name, instance_id))
         instances = storage.all()
 
         if instance_key not in instances:
@@ -206,6 +193,7 @@ class HBNBCommand(cmd.Cmd):
 
         setattr(instance, attribute_name, casted_value)
         instance.save()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

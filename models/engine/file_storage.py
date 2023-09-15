@@ -40,12 +40,6 @@ class FileStorage:
         """
         Deserialize the JSON file to __objects if __file_path exista.
         If the file doesn't exist, no exceptio should be raised."""
-        classes = {
-                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review
-                    }
-
         if exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as file:
                 try:

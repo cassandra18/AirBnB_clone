@@ -9,7 +9,7 @@ from models.base_model import BaseModel
 class HBNBCommand(cmd.Cmd):
     """
     The HBNBCommand class is a subclass of the Cmd class.
-    Cmd provides a simple framework for writing line-oriented command interpreters.
+    Cmd provides a framework for writing line-oriented command interpreters.
     """
     prompt = "(hbnb) "
 
@@ -32,7 +32,7 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
             return
-        
+
         try:
             model_class = eval(arg)
         except NameError:
@@ -67,7 +67,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        if class_name not in globals() or not issubclass(class_name, BaseModel):
+        if class_name not in globals() or not issubclass(class_name,
+                                                         BaseModel):
             print("** class doesn't exist **")
             return
 
@@ -103,7 +104,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        if class_name not in globals() or not issubclass(model_class, BaseModel):
+        if class_name not in globals() or not issubclass(model_class,
+                                                         BaseModel):
             print("** class doesn't exist **")
             return
 
@@ -117,7 +119,7 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
             return
 
-    def do_all(self,arg):
+    def do_all(self, arg):
         """Print the string representation of all instances.
         Based on or not on the class name."""
         if not arg:
@@ -136,7 +138,7 @@ class HBNBCommand(cmd.Cmd):
 
             instances = storage.all().values()
             filtered_inst = [str(instance) for instance in instances
-                            if isinstance(instance, model_class)]
+                             if isinstance(instance, model_class)]
             print(filtered_inst)
 
     def do_update(self, arg):
@@ -147,7 +149,7 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return
-        
+
         class_name = args[0]
         if class_name not in globals():
             print("** class doesn't exist **")
@@ -156,7 +158,7 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 2:
             print("** instance id missing **")
             return
-    
+
         instance_id = args[1]
         instance_key = f("{class_name}.{instance_id}")
         instances = storage.all()
@@ -175,7 +177,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         attribute_value = args[3]
-        
+
         try:
             model_class = eval(class_name)
         except NameError:
@@ -196,8 +198,6 @@ class HBNBCommand(cmd.Cmd):
 
         setattr(instance, attribute_name, casted_value)
         instance.save()
-
-
 
     if __name__ == '__main__':
         HBNBCommand().cmdloop()

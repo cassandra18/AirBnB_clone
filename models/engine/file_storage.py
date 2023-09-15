@@ -9,7 +9,7 @@ from os.path import exists
 class FileStorage:
     """Serialize instance to JAson File.
     Deserialize JSON file to instance."""
-    __file_path = "storage_file.json"
+    __file_path = "file.json"
     __objects = {}
 
     def all(self):

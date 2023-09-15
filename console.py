@@ -80,7 +80,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        instance_key = print("{}.{}".format(class_name, instance_id))
+        instance_key = "{}.{}".format(class_name, instance_id)
         instances = storage.all()
 
         if instance_key in instances:
@@ -91,10 +91,17 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, arg):
         """Delete an instance based on the class name and id.
         Save changes to JSON file."""
+        if not arg:
+            print("** class name missing **")
+            return
+
         args = arg.split()
 
-        if len(args) < 2:
-            print("** Missing class name or instance id **")
+        if len(args) == 0:
+            print("** class name missing  **")
+            return
+        elif len(args) == 1:
+            print("** instance id missing **")
             return
 
         class_name = args[0]
@@ -104,7 +111,7 @@ class HBNBCommand(cmd.Cmd):
             print("** Class doesn't exist **")
             return
 
-        instance_key = f"{class_name}.{instance_id}"
+        instance_key = "{}.{}".format(class_name,instance_id)
         instances = storage.all()
 
         if instance_key not in instances:
@@ -155,7 +162,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         instance_id = args[1]
-        instance_key = print("{}.{}".format(class_name, instance_id))
+        instance_key = "{}.{}".format(class_name, instance_id)
         instances = storage.all()
 
         if instance_key not in instances:
@@ -180,9 +187,9 @@ class HBNBCommand(cmd.Cmd):
             return
 
         instance = instances[instance_key]
-        if not hasattr(instance, attribute_name):
-            print("** attribute name missing **")
-            return
+        #if not hasattr(instance, attribute_name):
+         #   print("** no attribute found **")
+          #  return
 
         attribute_type = type(getattr(instance, attribute_name))
         try:

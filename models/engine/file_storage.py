@@ -9,7 +9,7 @@ from os.path import exists
 class FileStorage:
     """Serialize instance to JAson File.
     Deserialize JSON file to instance."""
-    __file_path = "storage_file"
+    __file_path = "file.json"
     __objects = {}
 
     def all(self):
@@ -23,7 +23,7 @@ class FileStorage:
 
     def save(self):
         """Serialize __objects to the JSON file (__file_path)."""
-        serialized_objets = {}
+        serialized_objects = {}
         for key, obj in FileStorage.__objects.items():
             serialized_objects[key] = obj.to_dict()
         with open(FileStorage.__file_path, 'w') as file:

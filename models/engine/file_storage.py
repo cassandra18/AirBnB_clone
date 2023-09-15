@@ -4,6 +4,13 @@ It deserializes JSON file to instances."""
 
 import json
 from os.path import exists
+from models.base_model import BaseModel
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 
 class FileStorage:
@@ -33,14 +40,6 @@ class FileStorage:
         """
         Deserialize the JSON file to __objects if __file_path exista.
         If the file doesn't exist, no exceptio should be raised."""
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
-
         classes = {
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,

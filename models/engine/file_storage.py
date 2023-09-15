@@ -9,7 +9,7 @@ from os.path import exists
 class FileStorage:
     """Serialize instance to JAson File.
     Deserialize JSON file to instance."""
-    __file_path = "storage_file"
+    __file_path = "storage_file.json"
     __objects = {}
 
     def all(self):
@@ -23,7 +23,7 @@ class FileStorage:
 
     def save(self):
         """Serialize __objects to the JSON file (__file_path)."""
-        serialized_objets = {}
+        serialized_objects = {}
         for key, obj in FileStorage.__objects.items():
             serialized_objects[key] = obj.to_dict()
         with open(FileStorage.__file_path, 'w') as file:
@@ -33,6 +33,20 @@ class FileStorage:
         """
         Deserialize the JSON file to __objects if __file_path exista.
         If the file doesn't exist, no exceptio should be raised."""
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
+
+        classes = {
+                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                    'State': State, 'City': City, 'Amenity': Amenity,
+                    'Review': Review
+                    }
+
         if exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as file:
                 try:

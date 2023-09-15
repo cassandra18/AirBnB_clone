@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Place Class module"""
-
 from models.base_model import BaseModel
 
 
@@ -20,7 +19,7 @@ class Place(BaseModel):
     - latitude (float): The latitude coordinates of the place.
     - longitude (float): The longitude coordinates of the place.
     - amenity_ids (list of str): A list of Amenity IDs associated with the
-        place.
+    place.
     """
 
     def __init__(self, *args, **kwargs):

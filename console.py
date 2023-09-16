@@ -111,7 +111,7 @@ class HBNBCommand(cmd.Cmd):
             print("** Class doesn't exist **")
             return
 
-        instance_key = "{}.{}".format(class_name,instance_id)
+        instance_key = "{}.{}".format(class_name, instance_id)
         instances = storage.all()
 
         if instance_key not in instances:
@@ -143,63 +143,39 @@ class HBNBCommand(cmd.Cmd):
                              if isinstance(instance, model_class)]
             print(filtered_inst)
 
-    def do_update(self, arg):
-        """Updates an instance based on class name and id.
-        Save the change into the JSON file."""
-        args = arg.split()
+    def do_update(self, args):
+        """Updates an instance based on the class name and id by adding or
+        updating attribute, saving on JSON file"""
+        arg = args.split()
+        found = False
 
-        if len(args) == 0:
+        if len(arg) < 1:
             print("** class name missing **")
-            return
-
-        class_name = args[0]
-        if class_name not in globals():
+        elif arg[0] not in globals():
             print("** class doesn't exist **")
-            return
-
-        if len(args) < 2:
+        elif len(arg) < 2:
             print("** instance id missing **")
-            return
-
-        instance_id = args[1]
-        instance_key = "{}.{}".format(class_name, instance_id)
-        instances = storage.all()
-
-        if instance_key not in instances:
-            print("** no instance found **")
-            return
-
-        if len(args) < 3:
+        elif len(arg) < 3:
             print("** attribute name missing **")
-            return
-
-        attribute_name = args[2]
-        if len(args) < 4:
+        elif len(arg) < 4:
             print("** value missing **")
-            return
-
-        attribute_value = args[3]
-
-        try:
-            model_class = eval(class_name)
-        except NameError:
-            print("** class doesn't exist **")
-            return
-
-        instance = instances[instance_key]
-        #if not hasattr(instance, attribute_name):
-         #   print("** no attribute found **")
-          #  return
-
-        attribute_type = type(getattr(instance, attribute_name))
-        try:
-            casted_value = attribute_type(attribute_value)
-        except ValueError:
-            print("** value missing **")
-            return
-
-        setattr(instance, attribute_name, casted_value)
-        instance.save()
+        else:
+            instance_key = "{}.{}".format(arg[0], arg[1])
+            for key, obj in storage.all().items():
+                if key == instance_key:
+                    att_val_idx = len(arg[0]) + len(arg[1]) + len(arg[2]) + 3
+                    value = args[att_val_idx:]
+                    if args[att_val_idx] == "\"":
+                        att_val_idx += 1
+                        value = args[att_val_idx:-1]
+                    if hasattr(obj, arg[2]):
+                        value = type(getattr(obj, arg[2]))(args[att_val_idx:])
+                    setattr(obj, arg[2], value)
+                    found = True
+                    storage.save()
+                    break
+            if not found:
+                print("** no instance found **")
 
 
 if __name__ == '__main__':

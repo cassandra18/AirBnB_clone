@@ -17,7 +17,15 @@ class FileStorage:
     """Serialize instance to JAson File.
     Deserialize JSON file to instance."""
     __file_path = "file.json"
-    __objects = {}
+    __objects = {
+            'BaseModel': {},
+            'User': {},
+            'Place': {},
+            'State': {},
+            'City': {},
+            'Amenity': {},
+            'Review': {}
+            }
 
     def all(self):
         """Return the dictionary representation of __objects."""

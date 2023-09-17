@@ -124,6 +124,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """Print the string representation of all instances.
         Based on or not on the class name."""
+
         model_classes = {
                "BaseModel": BaseModel,
                "User": User,
@@ -142,8 +143,6 @@ class HBNBCommand(cmd.Cmd):
             filtered_inst = [str(instance) for instance in instances
                              if isinstance(instance, model_class)]
             print(filtered_inst)
-        else:
-            print("** class doesn't exist **")
 
     def do_update(self, args):
         """Updates an instance based on the class name and id by adding or

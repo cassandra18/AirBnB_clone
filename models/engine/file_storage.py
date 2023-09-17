@@ -57,7 +57,7 @@ class FileStorage:
                             'City': City,
                             'Amenity': Amenity,
                             'Review': Review
-                        } 
+                        }
                         if class_name in valid_classes:
                             obj_class = valid_classes[class_name]
                             obj = obj_class(**value)

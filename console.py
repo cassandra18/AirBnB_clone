@@ -124,24 +124,30 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """Print the string representation of all instances.
         Based on or not on the class name."""
+        model_classes = {
+               "BaseModel": BaseModel,
+               "User": User,
+               "Place": Place,
+               "State": State,
+               "City": City,
+               "Amenity": Amenity,
+               "Review": Review
+            }
+
         if not arg:
             instances = storage.all().values()
             print([str(instance) for instance in instances])
-        else:
-            try:
-                model_class = eval(arg)
-            except NameError:
-                print("** class doesn't exist **")
-                return
-
-            if arg not in globals() or not issubclass(model_class, BaseModel):
-                print("** class doesn't exist **")
-                return
-
+        if not arg:
+            instances = storage.all().values()
+            print([str(instance) for instance in instances])
+        elif arg in model_classes:
+            model_class = model_classes[arg]
             instances = storage.all().values()
             filtered_inst = [str(instance) for instance in instances
                              if isinstance(instance, model_class)]
             print(filtered_inst)
+        else:
+            print("** class doesn't exist **")
 
     def do_update(self, args):
         """Updates an instance based on the class name and id by adding or

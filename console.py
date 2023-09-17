@@ -133,10 +133,6 @@ class HBNBCommand(cmd.Cmd):
                "Amenity": Amenity,
                "Review": Review
             }
-
-        if not arg:
-            instances = storage.all().values()
-            print([str(instance) for instance in instances])
         if not arg:
             instances = storage.all().values()
             print([str(instance) for instance in instances])

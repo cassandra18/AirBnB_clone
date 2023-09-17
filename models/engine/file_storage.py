@@ -27,8 +27,10 @@ class FileStorage:
             'Review': {}
             }
 
-    def all(self):
+    def all(self, cls=None):
         """Return the dictionary representation of __objects."""
+        if cls is not None:
+            return self.__objects.get(cls.__name__, {})
         return self.__objects
 
     def new(self, obj):
@@ -40,7 +42,8 @@ class FileStorage:
         """Serialize __objects to the JSON file (__file_path)."""
         serialized_objects = {}
         for key, obj in self.__objects.items():
-            serialized_objects[key] = obj.to_dict()
+            if isinstance(obj, BaseModel):
+                serialized_objects[key] = obj.to_dict()
         with open(self.__file_path, 'w', encoding='utf-8') as fl:
             json.dump(serialized_objects, fl)
 
@@ -54,8 +57,18 @@ class FileStorage:
                     data = json.load(fl)
                     for key, value in data.items():
                         class_name, obj_id = key.split('.')
-                        obj_class = eval(class_name)
-                        obj = obj_class(**value)
-                        self.__objects[key] = obj
+                        valid_classes = {
+                            'BaseModel': BaseModel,
+                            'User': User,
+                            'Place': Place,
+                            'State': State,
+                            'City': City,
+                            'Amenity': Amenity,
+                            'Review': Review
+                        } 
+                        if class_name in valid_classes:
+                            obj_class = valid_classes[class_name]
+                            obj = obj_class(**value)
+                            self.__objects[key] = obj
                 except FileNotFoundError:
                     pass
